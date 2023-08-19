@@ -164,7 +164,7 @@ def parse(func):
             logger.info(text_info)
         else:
             text_info = context
-            logger.info("未找到匹配的内容")
+            logger.info("Content not found that matches")
 
         return text_info
 
@@ -175,7 +175,7 @@ class UIDesign(Action):
     """Class representing the UI Design action."""
 
     def __init__(self, name, context=None, llm=None):
-        super().__init__(name, context, llm)  # 需要调用LLM进一步丰富UI设计的prompt
+        super().__init__(name, context, llm)  # Need to call LLM to further enrich the UI design prompt
 
     @parse
     def parse_requirement(self, context: str):
@@ -207,7 +207,7 @@ class UIDesign(Action):
         icons = [s for s in icons if len(s.strip()) > 0]
         prompts_batch = []
         for icon_prompt in icons:
-            # fixme: 添加icon lora
+            # fixme: Add icon lora
             prompt = engine.construct_payload(icon_prompt + ".<lora:WZ0710_AW81e-3_30e3b128d64T32_goon0.5>")
             prompts_batch.append(prompt)
         await engine.run_t2i(prompts_batch)
@@ -228,7 +228,7 @@ class UIDesign(Action):
 
     async def run(self, requirements: list[Message], *args, **kwargs) -> ActionOutput:
         """Run the UI Design action."""
-        # fixme: update prompt (根据需求细化prompt）
+        # fixme: update prompt (refine prompt based on requirements）
         context = requirements[-1].content
         ui_design_draft = self.parse_requirement(context=context)
         # todo: parse requirements str
@@ -269,7 +269,7 @@ class UI(Role):
 
     def load_skills(self, skills):
         """Load skills for the UI Role."""
-        # todo: 添加其他出图engine
+        # todo: Add other drawing engines
         for skill in skills:
             if skill == "SD":
                 self.sd_engine = self.load_sd_engine()

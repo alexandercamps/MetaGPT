@@ -44,12 +44,12 @@ def test_set_manager(env: Environment):
 
 @pytest.mark.asyncio
 async def test_publish_and_process_message(env: Environment):
-    product_manager = ProductManager("Alice", "Product Manager", "做AI Native产品", "资源有限")
-    architect = Architect("Bob", "Architect", "设计一个可用、高效、较低成本的系统，包括数据结构与接口", "资源有限，需要节省成本")
+    product_manager = ProductManager("Alice", "Product Manager", "Make AI Native product", "limited resources")
+    architect = Architect("Bob", "Architect", "Design a usable, efficient, low-cost system, including data structure and interface", "Limited resources, need to save costs")
 
     env.add_roles([product_manager, architect])
     env.set_manager(Manager())
-    env.publish_message(Message(role="BOSS", content="需要一个基于LLM做总结的搜索引擎", cause_by=BossRequirement))
+    env.publish_message(Message(role="BOSS", content="Need a search engine that summarizes based on LLM", cause_by=BossRequirement))
 
     await env.run(k=2)
     logger.info(f"{env.history=}")

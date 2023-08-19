@@ -20,8 +20,8 @@ from metagpt.tools.prompt_writer import (
 @pytest.mark.usefixtures("llm_api")
 def test_gpt_prompt_generator(llm_api):
     generator = GPTPromptGenerator()
-    example = "商品名称:WonderLab 新肌果味代餐奶昔 小胖瓶 胶原蛋白升级版 饱腹代餐粉6瓶 75g/瓶(6瓶/盒) 店铺名称:金力宁食品专营店 " \
-              "品牌:WonderLab 保质期:1年 产地:中国 净含量:450g"
+    example = "Product Name:WonderLab New Skin Fruit Flavor Meal Replacement Milkshake Small Fat Bottle Collagen Upgraded Version Satiety Meal Replacement Powder 6 Bottles 75g/Bottle (6 Bottles/Box) Store Name:Jinlinning Food Specialty Store " \
+              "Brand:WonderLab Shelf Life:1 year Origin:China Net Content:450g"
 
     results = llm_api.ask_batch(generator.gen(example))
     logger.info(results)

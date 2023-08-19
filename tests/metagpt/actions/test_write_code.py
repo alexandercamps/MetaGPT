@@ -15,13 +15,13 @@ from tests.metagpt.actions.mock import TASKS_2, WRITE_CODE_PROMPT_SAMPLE
 
 @pytest.mark.asyncio
 async def test_write_code():
-    api_design = "设计一个名为'add'的函数，该函数接受两个整数作为输入，并返回它们的和。"
+    api_design = "Design a function named 'add' that takes two integers as input and returns their sum."
     write_code = WriteCode("write_code")
 
     code = await write_code.run(api_design)
     logger.info(code)
 
-    # 我们不能精确地预测生成的代码，但我们可以检查某些关键字
+    # We can't precisely predict the generated code, but we can check for certain keywords
     assert 'def add' in code
     assert 'return' in code
 

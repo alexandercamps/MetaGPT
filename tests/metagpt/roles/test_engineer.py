@@ -86,7 +86,7 @@ target_code = """task_list = [
 
 
 def test_parse_code():
-    code = CodeParser.parse_code("任务列表", TASKS, lang="python")
+    code = CodeParser.parse_code("Task List", TASKS, lang="python")
     logger.info(code)
     assert isinstance(code, str)
     assert target_code == code

@@ -14,7 +14,7 @@ from metagpt.const import PROJECT_ROOT
 
 
 def define_log_level(print_level="INFO", logfile_level="DEBUG"):
-    """调整日志级别到level之上
+    """Adjust the log level to above level
        Adjust the log level to above level
     """
     _logger.remove()

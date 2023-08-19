@@ -12,24 +12,24 @@ from metagpt.actions.design_api_review import DesignReview
 
 @pytest.mark.asyncio
 async def test_design_api_review():
-    prd = "我们需要一个音乐播放器，它应该有播放、暂停、上一曲、下一曲等功能。"
+    prd = "We need a music player, it should have play, pause, previous track, next track, etc. functions."
     api_design = """
-数据结构:
-1. Song: 包含歌曲信息，如标题、艺术家等。
-2. Playlist: 包含一系列歌曲。
+Data structure:
+1. Song: Contains song information, such as title, artist, etc.
+2. Playlist: Contains a series of songs.
 
-API列表:
-1. play(song: Song): 开始播放指定的歌曲。
-2. pause(): 暂停当前播放的歌曲。
-3. next(): 跳到播放列表的下一首歌曲。
-4. previous(): 跳到播放列表的上一首歌曲。
+API list:
+1. play(song: Song): Start playing the specified song.
+2. pause(): Pause the currently playing song.
+3. next(): Skip to the next song in the playlist.
+4. previous(): Skip to the previous song in the playlist.
 """
-    _ = "API设计看起来非常合理，满足了PRD中的所有需求。"
+    _ = "The API design looks very reasonable and meets all the requirements in the PRD."
 
     design_api_review = DesignReview("design_api_review")
 
     result = await design_api_review.run(prd, api_design)
 
-    _ = f"以下是产品需求文档(PRD):\n\n{prd}\n\n以下是基于这个PRD设计的API列表:\n\n{api_design}\n\n请审查这个API设计是否满足PRD的需求，以及是否符合良好的设计实践。"
+    _ = f"The following is the Product Requirement Document (PRD):\n\n{prd}\n\nThe following is the API list designed based on this PRD:\n\n{api_design}\n\nPlease review whether this API design meets the PRD requirements and whether it complies with good design practices."
     # mock_llm.ask.assert_called_once_with(prompt)
     assert len(result) > 0

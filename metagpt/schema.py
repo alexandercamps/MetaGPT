@@ -46,7 +46,7 @@ class Message:
 
 @dataclass
 class UserMessage(Message):
-    """便于支持OpenAI的消息
+    """Facilitate support for OpenAI messages
        Facilitate support for OpenAI messages
     """
     def __init__(self, content: str):
@@ -55,7 +55,7 @@ class UserMessage(Message):
 
 @dataclass
 class SystemMessage(Message):
-    """便于支持OpenAI的消息
+    """Facilitate support for OpenAI messages
        Facilitate support for OpenAI messages
     """
     def __init__(self, content: str):
@@ -64,7 +64,7 @@ class SystemMessage(Message):
 
 @dataclass
 class AIMessage(Message):
-    """便于支持OpenAI的消息
+    """Facilitate support for OpenAI messages
        Facilitate support for OpenAI messages
     """
     def __init__(self, content: str):

@@ -18,14 +18,14 @@ def add(a, b):
 """
     # write_code_review = WriteCodeReview("write_code_review")
 
-    code = await WriteCodeReview().run(context="编写一个从a加b的函数，返回a+b", code=code, filename="math.py")
+    code = await WriteCodeReview().run(context="Write a function that adds a to b and returns a+b", code=code, filename="math.py")
 
-    # 我们不能精确地预测生成的代码评审，但我们可以检查返回的是否为字符串
+    # We can't precisely predict the generated code review, but we can check if it is returned as a string
     assert isinstance(code, str)
     assert len(code) > 0
 
     captured = capfd.readouterr()
-    print(f"输出内容: {captured.out}")
+    print(f"Output content: {captured.out}")
 
 
 # @pytest.mark.asyncio

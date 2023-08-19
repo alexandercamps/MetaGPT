@@ -14,7 +14,7 @@ from tests.metagpt.actions.mock import PRD_SAMPLE
 
 @pytest.mark.asyncio
 async def test_design_api():
-    prd = "我们需要一个音乐播放器，它应该有播放、暂停、上一曲、下一曲等功能。"
+    prd = "We need a music player, it should have play, pause, previous track, next track, etc. functions."
 
     design_api = WriteDesign("design_api")
 

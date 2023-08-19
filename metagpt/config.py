@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-提供配置，单例
+Provide configuration, singleton pattern.
 """
 import os
 
@@ -28,7 +28,7 @@ class NotConfiguredException(Exception):
 
 class Config(metaclass=Singleton):
     """
-    常规使用方法：
+    Regular usage method:
     config = Config("config.yaml")
     secret_key = config.get_key("MY_SECRET_KEY")
     print("Secret key:", secret_key)
@@ -45,9 +45,8 @@ class Config(metaclass=Singleton):
         self.global_proxy = self._get("GLOBAL_PROXY")
         self.openai_api_key = self._get("OPENAI_API_KEY")
         self.anthropic_api_key = self._get("Anthropic_API_KEY")
-        if (not self.openai_api_key or "YOUR_API_KEY" == self.openai_api_key) and (
-            not self.anthropic_api_key or "YOUR_API_KEY" == self.anthropic_api_key
-        ):
+        if (not self.openai_api_key or "YOUR_API_KEY" == self.openai_api_key) \
+            and (not self.anthropic_api_key or "YOUR_API_KEY" == self.anthropic_api_key):
             raise NotConfiguredException("Set OPENAI_API_KEY or Anthropic_API_KEY first")
         self.openai_api_base = self._get("OPENAI_API_BASE")
         if not self.openai_api_base or "YOUR_API_BASE" == self.openai_api_base:
@@ -62,23 +61,20 @@ class Config(metaclass=Singleton):
         self.openai_api_model = self._get("OPENAI_API_MODEL", "gpt-4")
         self.max_tokens_rsp = self._get("MAX_TOKENS", 2048)
         self.deployment_id = self._get("DEPLOYMENT_ID")
-
-        self.claude_api_key = self._get("Anthropic_API_KEY")
+        self.claude_api_key = self._get('Anthropic_API_KEY')
         self.serpapi_api_key = self._get("SERPAPI_API_KEY")
         self.serper_api_key = self._get("SERPER_API_KEY")
         self.google_api_key = self._get("GOOGLE_API_KEY")
         self.google_cse_id = self._get("GOOGLE_CSE_ID")
-        self.search_engine = SearchEngineType(self._get("SEARCH_ENGINE", SearchEngineType.SERPAPI_GOOGLE))
-        self.web_browser_engine = WebBrowserEngineType(self._get("WEB_BROWSER_ENGINE", WebBrowserEngineType.PLAYWRIGHT))
+        self.search_engine = self._get("SEARCH_ENGINE", SearchEngineType.SERPAPI_GOOGLE)
+        self.web_browser_engine = WebBrowserEngineType(self._get("WEB_BROWSER_ENGINE", "playwright"))
         self.playwright_browser_type = self._get("PLAYWRIGHT_BROWSER_TYPE", "chromium")
         self.selenium_browser_type = self._get("SELENIUM_BROWSER_TYPE", "chrome")
-
-        self.long_term_memory = self._get("LONG_TERM_MEMORY", False)
+        self.long_term_memory = self._get('LONG_TERM_MEMORY', False)
         if self.long_term_memory:
             logger.warning("LONG_TERM_MEMORY is True")
         self.max_budget = self._get("MAX_BUDGET", 10.0)
         self.total_cost = 0.0
-
         self.puppeteer_config = self._get("PUPPETEER_CONFIG", "")
         self.mmdc = self._get("MMDC", "mmdc")
         self.calc_usage = self._get("CALC_USAGE", True)
@@ -86,14 +82,14 @@ class Config(metaclass=Singleton):
         self.model_for_researcher_report = self._get("MODEL_FOR_RESEARCHER_REPORT")
 
     def _init_with_config_files_and_env(self, configs: dict, yaml_file):
-        """从config/key.yaml / config/config.yaml / env三处按优先级递减加载"""
+        """Load from config/key.yaml, config/config.yaml, and env in decreasing priority order."""
         configs.update(os.environ)
 
         for _yaml_file in [yaml_file, self.key_yaml_file]:
             if not _yaml_file.exists():
                 continue
 
-            # 加载本地 YAML 文件
+            # Load local YAML file
             with open(_yaml_file, "r", encoding="utf-8") as file:
                 yaml_data = yaml.safe_load(file)
                 if not yaml_data:
@@ -105,7 +101,7 @@ class Config(metaclass=Singleton):
         return self._configs.get(*args, **kwargs)
 
     def get(self, key, *args, **kwargs):
-        """从config/key.yaml / config/config.yaml / env三处找值，找不到报错"""
+        """Find the value from config/key.yaml, config/config.yaml, and env; raise an error if not found."""
         value = self._get(key, *args, **kwargs)
         if value is None:
             raise ValueError(f"Key '{key}' not found in environment variables or in the YAML file")

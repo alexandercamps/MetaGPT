@@ -14,8 +14,8 @@ def test_azure_tts():
         "zh-CN",
         "zh-CN-YunxiNeural",
         "Boy",
-        "你好，我是卡卡",
+        "Hello, I am Kaka",
         "output.wav")
 
-    # 运行需要先配置 SUBSCRIPTION_KEY
-    # TODO: 这里如果要检验，还要额外加上对应的asr，才能确保前后生成是接近一致的，但现在还没有
+    # You need to configure SUBSCRIPTION_KEY to run
+    # TODO: If you want to verify here, you also need to add the corresponding ASR, to ensure that the generation before and after is almost consistent, but not yet

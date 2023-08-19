@@ -7,8 +7,8 @@
 """
 
 
-# 出自插件：ChatGPT - 网站和 YouTube 视频摘要
-# https://chrome.google.com/webstore/detail/chatgpt-%C2%BB-summarize-every/cbgecfllfhmmnknmamkejadjmnmpfjmp?hl=zh-CN&utm_source=chrome-ntp-launcher
+# From the plugin: ChatGPT - Website and YouTube Video Summary
+# https://chrome.google.com/webstore/detail/chatgpt-%C2%BB-summarize-every/cbgecfllfhmmnknmamkejadjmnmpfjmp?hl=en&utm_source=chrome-ntp-launcher
 SUMMARIZE_PROMPT = """
 Your output should use the following template:
 ### Summary
@@ -22,9 +22,9 @@ a YouTube video, use the following text: {{CONTENT}}.
 """
 
 
-# GCP-VertexAI-文本摘要（SUMMARIZE_PROMPT_2-5都是）
+# GCP-VertexAI-Text Summarization (SUMMARIZE_PROMPT_2-5 are all)
 # https://github.com/GoogleCloudPlatform/generative-ai/blob/main/language/examples/prompt-design/text_summarization.ipynb
-# 长文档需要map-reduce过程，见下面这个notebook
+# Long documents need a map-reduce process, see the notebook below
 # https://github.com/GoogleCloudPlatform/generative-ai/blob/main/language/examples/document-summarization/summarization_large_documents.ipynb
 SUMMARIZE_PROMPT_2 = """
 Provide a very short summary, no more than three sentences, for the following article:

@@ -16,7 +16,7 @@ from metagpt.schema import Message
 @pytest.mark.asyncio
 async def test_write_prd():
     product_manager = ProductManager()
-    requirements = "开发一个基于大语言模型与私有知识库的搜索引擎，希望可以基于大语言模型进行搜索总结"
+    requirements = "Develop a search engine based on a large language model and a private knowledge base, hoping to perform search summarization based on a large language model"
     prd = await product_manager.handle(Message(content=requirements, cause_by=BossRequirement))
     logger.info(requirements)
     logger.info(prd)

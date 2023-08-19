@@ -15,8 +15,8 @@ from metagpt.tools.translator import Translator
 @pytest.mark.usefixtures("llm_api")
 def test_translate(llm_api):
     poetries = [
-        ("Let life be beautiful like summer flowers", "花"),
-        ("The ancient Chinese poetries are all songs.", "中国")
+        ("Let life be beautiful like summer flowers", "flowers"),
+        ("The ancient Chinese poetries are all songs.", "China")
     ]
     for i, j in poetries:
         prompt = Translator.translate_prompt(i)

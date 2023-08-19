@@ -15,8 +15,8 @@ CASES = [
     ("cases/faq.csv", "Question", "Answer", 1),
     # ("cases/faq.json", "Question", "Answer", 1),
     ("docx/faq.docx", None, None, 1),
-    ("cases/faq.pdf", None, None, 0),  # 这是因为pdf默认没有分割段落
-    ("cases/faq.txt", None, None, 0),  # 这是因为txt按照256分割段落
+    ("cases/faq.pdf", None, None, 0),  # This is because PDFs are not divided into paragraphs by default
+    ("cases/faq.txt", None, None, 0),  # This is because TXT is divided into paragraphs by 256
 ]
 
 

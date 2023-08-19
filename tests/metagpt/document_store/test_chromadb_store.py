@@ -10,18 +10,18 @@ from metagpt.document_store.chromadb_store import ChromaStore
 
 # @pytest.mark.skip()
 def test_chroma_store():
-    """FIXME：chroma使用感觉很诡异，一用Python就挂，测试用例里也是"""
-    # 创建 ChromaStore 实例，使用 'sample_collection' 集合
+    """FIXME: The use of chroma feels very strange, and it hangs when using Python, and also in test cases"""
+    # Create a ChromaStore instance, using the 'sample_collection' collection
     document_store = ChromaStore('sample_collection_1')
 
-    # 使用 write 方法添加多个文档
+    # Use the write method to add multiple documents
     document_store.write(["This is document1", "This is document2"],
                 [{"source": "google-docs"}, {"source": "notion"}],
                 ["doc1", "doc2"])
 
-    # 使用 add 方法添加一个文档
+    # Use the add method to add a single document
     document_store.add("This is document3", {"source": "notion"}, "doc3")
 
-    # 搜索文档
+    # Search for documents
     results = document_store.search("This is a query document", n_results=3)
     assert len(results) > 0

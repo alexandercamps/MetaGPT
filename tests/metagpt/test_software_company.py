@@ -14,6 +14,6 @@ from metagpt.software_company import SoftwareCompany
 @pytest.mark.asyncio
 async def test_software_company():
     company = SoftwareCompany()
-    company.start_project("做一个基础搜索引擎，可以支持知识库")
+    company.start_project("Build a basic search engine that can support a knowledge base")
     history = await company.run(n_round=5)
     logger.info(history)

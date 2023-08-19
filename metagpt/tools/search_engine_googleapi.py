@@ -5,61 +5,30 @@ from __future__ import annotations
 import asyncio
 import json
 from concurrent import futures
-from typing import Optional
 from urllib.parse import urlparse
 
 import httplib2
-from pydantic import BaseModel, validator
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 from metagpt.config import CONFIG
 from metagpt.logs import logger
 
-try:
-    from googleapiclient.discovery import build
-    from googleapiclient.errors import HttpError
-except ImportError:
-    raise ImportError(
-        "To use this module, you should have the `google-api-python-client` Python package installed. "
-        "You can install it by running the command: `pip install -e.[search-google]`"
-    )
 
+class GoogleAPIWrapper:
+    """Wrapper around GoogleAPI.
 
-class GoogleAPIWrapper(BaseModel):
-    google_api_key: Optional[str] = None
-    google_cse_id: Optional[str] = None
-    loop: Optional[asyncio.AbstractEventLoop] = None
-    executor: Optional[futures.Executor] = None
-
-    class Config:
-        arbitrary_types_allowed = True
-
-    @validator("google_api_key", always=True)
-    @classmethod
-    def check_google_api_key(cls, val: str):
-        val = val or CONFIG.google_api_key
-        if not val:
-            raise ValueError(
-                "To use, make sure you provide the google_api_key when constructing an object. Alternatively, "
-                "ensure that the environment variable GOOGLE_API_KEY is set with your API key. You can obtain "
-                "an API key from https://console.cloud.google.com/apis/credentials."
-            )
-        return val
-
-    @validator("google_cse_id", always=True)
-    @classmethod
-    def check_google_cse_id(cls, val: str):
-        val = val or CONFIG.google_cse_id
-        if not val:
-            raise ValueError(
-                "To use, make sure you provide the google_cse_id when constructing an object. Alternatively, "
-                "ensure that the environment variable GOOGLE_CSE_ID is set with your API key. You can obtain "
-                "an API key from https://programmablesearchengine.google.com/controlpanel/create."
-            )
-        return val
-
-    @property
-    def google_api_client(self):
-        build_kwargs = {"developerKey": self.google_api_key}
+    To use this module, you should have the `google-api-python-client` Python package installed
+    and set property values for the configurations `GOOGLE_API_KEY` and `GOOGLE_CSE_ID`. See 
+    https://programmablesearchengine.google.com/controlpanel/all.
+    """
+    def __init__(
+        self,
+        *,
+        loop: asyncio.AbstractEventLoop | None = None,
+        executor: futures.Executor | None = None,
+    ):
+        build_kwargs = {"developerKey": CONFIG.google_api_key}
         if CONFIG.global_proxy:
             parse_result = urlparse(CONFIG.global_proxy)
             proxy_type = parse_result.scheme
@@ -73,7 +42,10 @@ class GoogleAPIWrapper(BaseModel):
                 ),
             )
         service = build("customsearch", "v1", **build_kwargs)
-        return service.cse()
+        self.google_api_client = service.cse()
+        self.custom_search_engine_id = CONFIG.google_cse_id
+        self.loop = loop
+        self.executor = executor
 
     async def run(
         self,
@@ -97,7 +69,12 @@ class GoogleAPIWrapper(BaseModel):
         """
         loop = self.loop or asyncio.get_event_loop()
         future = loop.run_in_executor(
-            self.executor, self.google_api_client.list(q=query, num=max_results, cx=self.google_cse_id).execute
+            self.executor,
+            self.google_api_client.list(
+                q=query,
+                num=max_results,
+                cx=self.custom_search_engine_id
+            ).execute
         )
         try:
             result = await future
@@ -108,13 +85,13 @@ class GoogleAPIWrapper(BaseModel):
             # Handle errors in the API call
             logger.exception(f"fail to search {query} for {e}")
             search_results = []
-
+        
         focus = focus or ["snippet", "link", "title"]
         details = [{i: j for i, j in item_dict.items() if i in focus} for item_dict in search_results]
         # Return the list of search result URLs
         if as_string:
             return safe_google_results(details)
-
+        
         return details
 
 
